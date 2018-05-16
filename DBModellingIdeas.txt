@@ -1,13 +1,13 @@
 --------------- DATATYPER ---------------
 CLASS Gin
 - name VARCHAR
-- price INT
-- percentage INT
+- price FLOAT
+- percentage FLOAT
 
 CLASS Tonic
 - name VARCHAR
-- price INT
-- percentage INT
+- price FLOAT
+- percentage FLOAT
 
 CLASS Garnish
 - name VARCHAR
@@ -33,18 +33,22 @@ CLASS User
 --------------- TABLES ---------------
 CREATE TABLE Gins (
   name text PRIMARY KEY,
-  price int,
-  percentage int
+  price float,
+  percentage float
 )
 
 CREATE TABLE Tonics (
   name text PRIMARY KEY,
-  price int,
-  percentage int
+  price float,
+  percentage float
 )
 
 CREATE TABLE Garnish' (
   name text PRIMARY KEY
+)
+
+CREATE TABLE Combinations (
+  parts tuple<text, text, text = NULL> PRIMARY KEY
 )
 
 CREATE TABLE Users (
@@ -52,13 +56,13 @@ CREATE TABLE Users (
   name text
 )
 
-CREATE TABLE Rating_by_combination (
+CREATE TABLE Ratings_by_combination (
   rating int,
   comb Combination,
   comment text,
   author UUID,
-  marks int,
-  PRIMARY KEY((comb.gin, comb.tonic, comb.garnish), author)
+  marks int = 0,
+  PRIMARY KEY(comb.parts, author)
 )
 
 CREATE TABLE Ratings_by_user (
@@ -71,4 +75,19 @@ CREATE TABLE Ratings_by_user (
 )
 
 --------------- QUERIES ---------------
-INSERT INTO gins VALUES(name, price, percentage) 
+- INSERT INTO gins(name, price, percentage) VALUES("Okanagan Spirits", 40.0, 40.0);
+
+- BEGIN BATCH
+INSERT INTO Ratings_by_combination(rating, comb, comment, author, marks) VALUES(4, Combination, "Det smager!!!", *indsæt UUID her*);
+INSERT INTO Ratings_by_user(rating, comb, comment, author, marks) VALUES(4, Combination, "Det smager!!!", *indsæt lækkert UUID her*);
+APPLY BATCH;
+
+- BEGIN BATCH
+INSERT INTO gins(name, price, percentage) VALUES("Bombay London Sapphire Dry Gin", 23.9, 47.0);
+INSERT INTO tonics(name, price, percentage) VALUES("Classic Tonic", 16.0, 0.0);
+APPLY BATCH;
+
+- SELECT * FROM Ratings_by_combination WHERE comb.parts = (Gin, Tonic, Garnish) ORDER BY marks ASC;
+
+- SELECT * FROM Ratings_by_user WHERE author = *indsæt lækkert UUID her*;
+
