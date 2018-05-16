@@ -1,3 +1,4 @@
+--------------- DATATYPER ---------------
 CLASS Gin
 - name VARCHAR
 - price INT
@@ -19,6 +20,7 @@ CLASS Combination
 - averageScore INT // bliver opdateret hver gang der bliver lavet en ny rating
 
 CLASS Rating
+- rating INT
 - comb Combination
 - comment VARCHAR
 - author UUID
@@ -27,3 +29,46 @@ CLASS Rating
 CLASS User
 - id UUID
 - name VARCHAR
+
+--------------- TABLES ---------------
+CREATE TABLE Gins (
+  name text PRIMARY KEY,
+  price int,
+  percentage int
+)
+
+CREATE TABLE Tonics (
+  name text PRIMARY KEY,
+  price int,
+  percentage int
+)
+
+CREATE TABLE Garnish' (
+  name text PRIMARY KEY
+)
+
+CREATE TABLE Users (
+  id UUID PRIMARY KEY,
+  name text
+)
+
+CREATE TABLE Rating_by_combination (
+  rating int,
+  comb Combination,
+  comment text,
+  author UUID,
+  marks int,
+  PRIMARY KEY((comb.gin, comb.tonic, comb.garnish), author)
+)
+
+CREATE TABLE Ratings_by_user (
+  rating int,
+  comb Combination,
+  comment text,
+  author UUID,
+  marks int,
+  PRIMARY KEY(author, comb)
+)
+
+--------------- QUERIES ---------------
+INSERT INTO gins VALUES(name, price, percentage) 
