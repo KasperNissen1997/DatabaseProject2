@@ -1,0 +1,29 @@
+CLASS Gin
+- name VARCHAR
+- price INT
+- percentage INT
+
+CLASS Tonic
+- name VARCHAR
+- price INT
+- percentage INT
+
+CLASS Garnish
+- name VARCHAR
+
+CLASS Combination
+- gin Gin
+- tonic Tonic
+- garnish Garnish // er NULL i tilfælde af der ikke bliver brugt en garnish
+- score INT
+- averageScore INT // bliver opdateret hver gang der bliver lavet en ny rating
+
+CLASS Rating
+- comb Combination
+- comment VARCHAR
+- author UUID
+- marks INT // indikerer hvor hjælpsom ratingen er
+
+CLASS User
+- id UUID
+- name VARCHAR
