@@ -1,15 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.databaseproject2.repositories;
 
 import com.datastax.driver.core.Session;
 
 /**
  *
- * @author Kaspe
+ * @author Sebastian
  */
 public class RatingRepository {
     public static final String RATING_BY_USER = "rtbusr";
