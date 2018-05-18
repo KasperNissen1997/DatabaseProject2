@@ -3,10 +3,6 @@ package com.mycompany.databaseproject2.repositories;
 import com.datastax.driver.core.Session;
 import com.mycompany.databaseproject2.domains.Gin;
 
-/**
- *
- * @author Kaspe
- */
 public class GinRepository {
     private static final String TABLE_NAME = "Gins";
     

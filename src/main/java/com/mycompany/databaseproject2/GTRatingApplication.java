@@ -51,8 +51,10 @@ public class GTRatingApplication {
                             String ginName = sc.nextLine();
                             System.out.println("What is the price of the gin?");
                             String ginPrice = sc.nextLine();
+                            System.out.println("What is the percentage of the gin?");
+                            String ginPercentage = sc.nextLine();
                             System.out.println("Inserting new gin...");
-                            ginRep.insertgin(new Gin(ginName, Float.valueOf(ginPrice), Float.valueOf(ginPercentage)));
+                            ginRep.insertGin(new Gin(ginName, Float.valueOf(ginPrice), Float.valueOf(ginPercentage)));
                             System.out.println("New gin succesfully inserted!");
                             break;
                             
@@ -74,7 +76,7 @@ public class GTRatingApplication {
                             System.out.println("What is the price of the garnish?");
                             String garnishPrice = sc.nextLine();
                             System.out.println("Inserting new garnish...");
-                            garnishRep.insertGarnish(new Garnish(garnishName));
+                            // garnishRep.insertGarnish(new Garnish(garnishName));
                             System.out.println("New garnish succesfully inserted!");
                             break;
                            
