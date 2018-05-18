@@ -86,4 +86,25 @@ public class GarnishRepository {
         final String query = sb.toString();
         session.execute(query);
     }
+    
+    public boolean containsTonic(String name) {
+        StringBuilder sb = new StringBuilder("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append("name = '")
+                .append(name)
+                .append("';");
+
+        final String query = sb.toString();
+        ResultSet rs = session.execute(query);
+
+        List<Garnish> tonics = new ArrayList<Garnish>();
+
+        for (Row r : rs) {
+            if (r.getString("name").equals(name))
+                return true;
+        }
+        
+        return false;
+    }
 }
