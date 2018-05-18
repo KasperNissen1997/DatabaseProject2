@@ -102,18 +102,20 @@ public class GTRatingApplication {
                         case "gin":
                             System.out.println("What is the name of the gin?");
                             line = sc.nextLine();
+                            if(ginRep.containsGin(line)) { System.out.println("The gin was found in the database!"); }
+                            else { System.out.println("The gin was NOT found in the database!"); }
                             break;
                         case "tonic":
                             System.out.println("What is the name of the tonic?");
                             line = sc.nextLine();
-                            if(tonicRep.containsTonic(line)) {
-                                System.out.println("The tonic was found in the database!");
-                            }
-                            else {
-                                System.out.println("The tonic was NOT found in the database!");
-                            }
+                            if(tonicRep.containsTonic(line)) { System.out.println("The tonic was found in the database!"); }
+                            else { System.out.println("The tonic was NOT found in the database!"); }
                             break;
                         case "garnish":
+                            System.out.println("What is the name of the garnish?");
+                            line = sc.nextLine();
+                            if(garnishRep.containsGarnish(line)) { System.out.println("The garnish was found in the database!"); }
+                            else { System.out.println("The garnish was NOT found in the database!"); }
                             break;
                         default:
                             System.out.println("Unknown input: \"" + line + "\".");
