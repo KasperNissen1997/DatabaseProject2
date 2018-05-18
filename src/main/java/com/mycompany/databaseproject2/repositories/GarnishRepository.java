@@ -87,7 +87,7 @@ public class GarnishRepository {
         session.execute(query);
     }
     
-    public boolean containsTonic(String name) {
+    public boolean containsGarnish(String name) {
         StringBuilder sb = new StringBuilder("SELECT * FROM ")
                 .append(TABLE_NAME)
                 .append(" WHERE ")
