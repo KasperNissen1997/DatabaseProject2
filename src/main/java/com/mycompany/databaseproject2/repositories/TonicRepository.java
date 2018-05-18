@@ -73,6 +73,12 @@ public class TonicRepository {
         return tonics;
     }
     
+    /**
+     * Searches for a tonic in tonics
+     * 
+     * @param name Name of the tonic to look for
+     * @return 'true' if the mentioned tonic exists, 'false' if it does not
+     */
     public boolean containsTonic(String name) {
         StringBuilder sb = new StringBuilder("SELECT * FROM ")
                 .append(TABLE_NAME)
