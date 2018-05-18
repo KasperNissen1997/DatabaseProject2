@@ -34,22 +34,6 @@ public class TonicRepository {
     }
     
     /**
-     * Alters the table tonics and adds an extra column.
-     */
-    public void alterTableTonics(String columnName, String columnType) {
-        StringBuilder sb = new StringBuilder("ALTER TABLE ")
-                .append(TABLE_NAME)
-                .append(" ADD ")
-                .append(columnName)
-                .append(" ")
-                .append(columnType)
-                .append(";");
-
-        final String query = sb.toString();
-        session.execute(query);
-    }
-    
-    /**
      * Insert a row in the table tonics. 
      * 
      * @param tonic
