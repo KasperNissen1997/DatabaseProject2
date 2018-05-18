@@ -73,6 +73,27 @@ public class TonicRepository {
         return tonics;
     }
     
+    public boolean containsTonic(String name) {
+        StringBuilder sb = new StringBuilder("SELECT * FROM ")
+                .append(TABLE_NAME)
+                .append(" WHERE ")
+                .append("name = '")
+                .append(name)
+                .append("';");
+
+        final String query = sb.toString();
+        ResultSet rs = session.execute(query);
+
+        List<Tonic> tonics = new ArrayList<Tonic>();
+
+        for (Row r : rs) {
+            if (r.getString("name").equals(name))
+                return true;
+        }
+        
+        return false;
+    }
+    
     /**
      * Delete table.
      * 

@@ -23,7 +23,7 @@ public class GinRepository {
     }
     
     public void insertGin(Gin gin){
-        StringBuilder sb = new StringBuilder("INSERT INTO ").append(TABLE_NAME).append("(name, price, percentage) ").append("VALUES (").append(gin.getName()).append(", '").append(gin.getPrice()).append("', '").append(gin.getPercentage()).append("');");
+        StringBuilder sb = new StringBuilder("INSERT INTO ").append(TABLE_NAME).append("(name, price, percentage) ").append("VALUES ('").append(gin.getName()).append("', ").append(gin.getPrice()).append(", ").append(gin.getPercentage()).append(");");
 
         final String query = sb.toString();
         session.execute(query);

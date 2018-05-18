@@ -26,6 +26,7 @@ public class GTRatingApplication {
         // create the various domain repositories
         GinRepository ginRep = new GinRepository(session);
         TonicRepository tonicRep = new TonicRepository(session);
+        GarnishRepository garnishRep = new GarnishRepository(session);
         // TODO: still need to add the remaining repositories
         
         stdRep.createKeyspace("drinks", "SimpleStrategy", 1);
@@ -34,6 +35,7 @@ public class GTRatingApplication {
         
         ginRep.createTable();
         tonicRep.createTable();
+        garnishRep.createTable();
         
         // await input
         Scanner sc = new Scanner(System.in);
@@ -43,7 +45,7 @@ public class GTRatingApplication {
         String line = sc.nextLine();
         
         // branch out, depending on the input given
-        while (line != "quit" || line != "stop" || line != "exit") {
+        while (!line.equals("exit")) {
             switch (line) {
                 
                 // create a new gin, tonic or garnish
@@ -82,13 +84,37 @@ public class GTRatingApplication {
                         case "garnish":
                             System.out.println("What is the name of the garnish?");
                             String garnishName = sc.nextLine();
-                            System.out.println("What is the price of the garnish?");
-                            String garnishPrice = sc.nextLine();
                             System.out.println("Inserting new garnish...");
-                            // garnishRep.insertGarnish(new Garnish(garnishName));
+                            garnishRep.insertGarnish(new Garnish(garnishName));
                             System.out.println("New garnish succesfully inserted!");
                             break;
                            
+                        default:
+                            System.out.println("Unknown input: \"" + line + "\".");
+                            break;
+                    }
+                    break;
+                    
+                case "search":
+                    System.out.println("Is it a gin, tonic or a garnish you're looking for?");
+                    line = sc.nextLine();
+                    switch(line) {
+                        case "gin":
+                            System.out.println("What is the name of the gin?");
+                            line = sc.nextLine();
+                            break;
+                        case "tonic":
+                            System.out.println("What is the name of the tonic?");
+                            line = sc.nextLine();
+                            if(tonicRep.containsTonic(line)) {
+                                System.out.println("The tonic was found in the database!");
+                            }
+                            else {
+                                System.out.println("The tonic was NOT found in the database!");
+                            }
+                            break;
+                        case "garnish":
+                            break;
                         default:
                             System.out.println("Unknown input: \"" + line + "\".");
                             break;
@@ -103,6 +129,8 @@ public class GTRatingApplication {
                 default:
                     System.out.println("Unknown input: \"" + line + "\".");
             }
+            
+            System.out.println("Next command, eyyy?");
             line = sc.nextLine();
         }
         
