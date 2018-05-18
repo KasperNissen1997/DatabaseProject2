@@ -16,5 +16,6 @@ public class Combination {
     Garnish garnish = null;
     int score;
     int averageScore;
+    int nrOfRatings;
     
 }

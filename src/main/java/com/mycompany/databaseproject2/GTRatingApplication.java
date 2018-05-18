@@ -32,7 +32,6 @@ public class GTRatingApplication {
         stdRep.createKeyspace("drinks", "SimpleStrategy", 1);
         
         stdRep.useKeyspace("drinks");
-        
         ginRep.createTable();
         tonicRep.createTable();
         garnishRep.createTable();
@@ -40,7 +39,7 @@ public class GTRatingApplication {
         // await input
         Scanner sc = new Scanner(System.in);
         
-        System.out.println("Lul boi, what next ayyy??");
+        System.out.println("What would you like to do?");
         
         String line = sc.nextLine();
         
@@ -50,14 +49,12 @@ public class GTRatingApplication {
                 
                 // create a new gin, tonic or garnish
                 case "insert":
-                    stdRep.useKeyspace("drinks");
                     
-                    System.out.println("Ayyy mah boi, u tryna insert new stuff?\nIs it a gin, tonic or a maddafakkin garnish eh?");
+                    System.out.println("Are you trying to insert a:\nGin (Gi), Tonic (T), Garnish (Ga), Combination (C), Rating (R)");
                     line = sc.nextLine();
                     switch (line) {
-                        
-                        // insert a new gin
-                        case "gin":
+                        case "Gi":
+                            stdRep.useKeyspace("drinks");
                             System.out.println("What is the name of the gin?");
                             String ginName = sc.nextLine();
                             System.out.println("What is the price of the gin?");
@@ -69,8 +66,8 @@ public class GTRatingApplication {
                             System.out.println("New gin succesfully inserted!");
                             break;
                             
-                        // insert a new tonic 
-                        case "tonic":
+                        case "T":
+                            stdRep.useKeyspace("drinks");
                             System.out.println("What is the name of the tonic?");
                             String tonicName = sc.nextLine();
                             System.out.println("What is the price of the tonic?");
@@ -80,15 +77,21 @@ public class GTRatingApplication {
                             System.out.println("New tonic succesfully inserted!");
                             break;
                             
-                        // insert a new garnish
-                        case "garnish":
+                        case "Ga":
+                            stdRep.useKeyspace("drinks");
                             System.out.println("What is the name of the garnish?");
                             String garnishName = sc.nextLine();
                             System.out.println("Inserting new garnish...");
                             garnishRep.insertGarnish(new Garnish(garnishName));
                             System.out.println("New garnish succesfully inserted!");
                             break;
-                           
+                        
+                        case "C":
+                            break;
+                        
+                        case "R":
+                            break;
+                            
                         default:
                             System.out.println("Unknown input: \"" + line + "\".");
                             break;
@@ -96,6 +99,8 @@ public class GTRatingApplication {
                     break;
                     
                 case "search":
+                    stdRep.useKeyspace("drinks");
+                    
                     System.out.println("Is it a gin, tonic or a garnish you're looking for?");
                     line = sc.nextLine();
                     switch(line) {
