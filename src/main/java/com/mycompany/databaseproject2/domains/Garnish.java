@@ -11,4 +11,6 @@ package com.mycompany.databaseproject2.domains;
  */
 public class Garnish {
     
+    String name;
+    
 }

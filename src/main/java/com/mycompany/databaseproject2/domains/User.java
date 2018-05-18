@@ -5,10 +5,15 @@
  */
 package com.mycompany.databaseproject2.domains;
 
+import java.util.UUID;
+
 /**
  *
  * @author Kaspe
  */
 public class User {
+    
+    UUID id;
+    String name;
     
 }

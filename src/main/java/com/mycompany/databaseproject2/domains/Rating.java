@@ -5,10 +5,18 @@
  */
 package com.mycompany.databaseproject2.domains;
 
+import java.util.UUID;
+
 /**
  *
  * @author Kaspe
  */
 public class Rating {
+    
+    UUID author;
+    Combination comb;
+    String comment;
+    int rating;
+    int marks;
     
 }

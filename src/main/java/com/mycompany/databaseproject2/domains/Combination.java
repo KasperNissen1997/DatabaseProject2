@@ -11,4 +11,10 @@ package com.mycompany.databaseproject2.domains;
  */
 public class Combination {
     
+    Gin gin;
+    Tonic tonic;
+    Garnish garnish = null;
+    int score;
+    int averageScore;
+    
 }
