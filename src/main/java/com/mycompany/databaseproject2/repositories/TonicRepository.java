@@ -53,7 +53,7 @@ public class TonicRepository {
     }
     
     /**
-     * Select all books from books
+     * Select all tonics from tonics
      * 
      * @return
      */
