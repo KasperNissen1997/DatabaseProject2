@@ -58,11 +58,11 @@ public class TonicRepository {
         StringBuilder sb = new StringBuilder("INSERT INTO ")
                 .append(TABLE_NAME)
                 .append("(name, price) ")
-                .append("VALUES (")
+                .append("VALUES (\'")
                 .append(tonic.getName())
-                .append(", \"")
+                .append("\', ")
                 .append(tonic.getPrice())
-                .append("\");");
+                .append(");");
 
         final String query = sb.toString();
         session.execute(query);

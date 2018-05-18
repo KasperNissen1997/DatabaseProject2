@@ -11,7 +11,7 @@ import java.util.Scanner;
  */
 public class GTRatingApplication {
     
-    static void main(String[] args) {
+    public static void main(String[] args) {
         GTRatingApplication.runApplication();
     }
     
@@ -21,12 +21,19 @@ public class GTRatingApplication {
         Session session = connector.getSession();
         
         // create the "drinks" keyspace
-        KeyspaceRepository StdRep = new KeyspaceRepository(session);
+        KeyspaceRepository stdRep = new KeyspaceRepository(session);
         
         // create the various domain repositories
         GinRepository ginRep = new GinRepository(session);
         TonicRepository tonicRep = new TonicRepository(session);
         // TODO: still need to add the remaining repositories
+        
+        stdRep.createKeyspace("drinks", "SimpleStrategy", 1);
+        
+        stdRep.useKeyspace("drinks");
+        
+        ginRep.createTable();
+        tonicRep.createTable();
         
         // await input
         Scanner sc = new Scanner(System.in);
@@ -41,6 +48,8 @@ public class GTRatingApplication {
                 
                 // create a new gin, tonic or garnish
                 case "insert":
+                    stdRep.useKeyspace("drinks");
+                    
                     System.out.println("Ayyy mah boi, u tryna insert new stuff?\nIs it a gin, tonic or a maddafakkin garnish eh?");
                     line = sc.nextLine();
                     switch (line) {
