@@ -33,9 +33,9 @@ public class Combination {
     
     public String getTuple(){
         StringBuilder sb = new StringBuilder("('")
-                .append(ginName).append("', '")
-                .append(tonicName).append("', '")
-                .append(garnishName).append("')");
+                .append(this.ginName).append("', '")
+                .append(this.tonicName).append("', '")
+                .append(this.garnishName).append("')");
         return sb.toString();
     }
     
