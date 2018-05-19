@@ -8,8 +8,8 @@ import com.datastax.driver.core.utils.UUIDs;
 import java.util.Scanner;
 
 /**
- *
- * @author Kaspe
+ * 
+ * @author KasperNissen1997
  */
 public class GTRatingApplication {
     private static final Scanner sc = new Scanner(System.in);
