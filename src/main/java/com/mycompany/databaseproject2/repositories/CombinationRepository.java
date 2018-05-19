@@ -1,14 +1,65 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.mycompany.databaseproject2.repositories;
 
+import com.mycompany.databaseproject2.domains.Combination;
+
+import com.datastax.driver.core.Session;
+
 /**
- *
- * @author Kaspe
+ * 
+ * @author KasperNissen1997
  */
 public class CombinationRepository {
+    private Session session;
+    
+    public static final String TABLE_NAME = "combinations";
+    
+    public CombinationRepository(Session session) {
+        this.session = session;
+    }
+    
+    /**
+     * Creates the combinations table.
+     */
+    public void createTable() {
+        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
+                .append(TABLE_NAME)
+                .append("(")
+                .append("parts tuple<text, text, text> PRIMARY KEY, ")
+                .append("score int, ")
+                .append("averageScore float, ")
+                .append("nrOfRatings int")
+                .append(");");
+
+        final String query = sb.toString();
+        session.execute(query);
+    }
+    
+    /**
+     * Insert a row in the table combinations. 
+     * 
+     * @param combination
+     */
+    public void insertCombination(Combination comb) {
+        StringBuilder sb = new StringBuilder("INSERT INTO ")
+                .append(TABLE_NAME)
+                .append("(parts, score, averageScore, nrOfRatings) ")
+                .append("VALUES (('")
+                .append(comb.getGinName())
+                .append("', '")
+                .append(comb.getTonicName())
+                .append("', '")
+                .append(comb.getGarnishName())
+                .append("'), ")
+                .append(comb.getScore())
+                .append(", ")
+                .append(comb.getAverageScore())
+                .append(", ")
+                .append(comb.getNrOfRatings())
+                .append(");");
+
+        final String query = sb.toString();
+        session.execute(query);
+    }
+    
     
 }

@@ -6,53 +6,53 @@ package com.mycompany.databaseproject2.domains;
  */
 public class Combination {
     
-    Gin gin;
-    Tonic tonic;
-    Garnish garnish;
+    String ginName;
+    String tonicName;
+    String garnishName;
     int score;
     float averageScore;
     int nrOfRatings;
     
-    public Combination(Gin gin, Tonic tonic) {
-        this.gin = gin;
-        this.tonic = tonic;
-        this.garnish = null;
+    public Combination(String ginName, String tonicName) {
+        this.ginName = ginName;
+        this.tonicName = tonicName;
+        this.garnishName = null;
         this.score = 0;
         this.averageScore = 0f;
         this.nrOfRatings = 0;
     }
     
-    public Combination(Gin gin, Tonic tonic, Garnish garnish) {
-        this.gin = gin;
-        this.tonic = tonic;
-        this.garnish = garnish;
+    public Combination(String ginName, String tonicName, String garnishName) {
+        this.ginName = ginName;
+        this.tonicName = tonicName;
+        this.garnishName = garnishName;
         this.score = 0;
         this.averageScore = 0f;
         this.nrOfRatings = 0;
     }
     
-    public void setGin(Gin gin) {
-        this.gin = gin;
+    public void setGinName(String ginName) {
+        this.ginName = ginName;
     }
     
-    public Gin getGin() {
-        return this.gin;
+    public String getGinName() {
+        return this.ginName;
     }
     
-    public void setTonic(Tonic tonic) {
-        this.tonic = tonic;
+    public void setTonicName(String tonicName) {
+        this.tonicName = tonicName;
     }
     
-    public Tonic getTonic() {
-        return this.tonic;
+    public String getTonicName() {
+        return this.tonicName;
     }
     
-    public void setGarnish(Garnish garnish) {
-        this.garnish = garnish;
+    public void setGarnishName(String garnishName) {
+        this.garnishName = garnishName;
     }
     
-    public Garnish getGarnish() {
-        return this.garnish;
+    public String getGarnishName() {
+        return this.garnishName;
     }
     
     public void setScore(int score) {

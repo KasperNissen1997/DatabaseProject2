@@ -9,6 +9,11 @@ import com.datastax.driver.core.Session;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author KasperNissen1997
+ */
+
 public class TonicRepository {
     private Session session;
     

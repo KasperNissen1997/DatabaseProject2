@@ -50,8 +50,6 @@ public class GinRepository {
         final String query = sb.toString();
         ResultSet rs = session.execute(query);
 
-        List<Gin> tonics = new ArrayList<Gin>();
-
         for (Row r : rs) {
             if (r.getString("name").equals(name))
                 return true;

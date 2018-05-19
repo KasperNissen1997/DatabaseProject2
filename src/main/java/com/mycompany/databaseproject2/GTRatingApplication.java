@@ -49,7 +49,7 @@ public class GTRatingApplication {
         garnishRep.createTable();
         
         stdRep.useKeyspace(KEYSPACE_USERS);
-        // combRep.createTable();
+        combRep.createTable();
         userRep.createTable();
         //ratingRep.createTable();
        
@@ -136,7 +136,39 @@ public class GTRatingApplication {
                     }
                     System.out.println("Ayyy mah homie, you signed in!");
                     
-                    System.out.println("");
+                    System.out.println("What would you like to do?:\nInsert (I), Rate (R), View previously rated combinations (V)");
+                    line = sc.nextLine();
+                    switch (line) {
+                        case "I":
+                            System.out.println("What would you like to insert?\nCombination (C), Rating (R)");
+                            line = sc.nextLine();
+                            
+                            switch (line) {
+                                case "C":
+                                    insertComb();
+                                    break;
+                                    
+                                case "R":
+                                    break;
+                                    
+                                default:
+                                    System.out.println("Unknown input: \"" + line + "\".");
+                                    break;
+                            }
+                            break;
+                            
+                        case "R":
+                            
+                            break;
+                            
+                        case "V":
+                            
+                            break;
+                            
+                        default:
+                            System.out.println("Unknown input: \"" + line + "\".");
+                            break;
+                    }
                     
                     break;
                 case "ayyy, cook some meth dawg":
@@ -163,7 +195,7 @@ public class GTRatingApplication {
         ginRep = new GinRepository(session);
         tonicRep = new TonicRepository(session);
         garnishRep = new GarnishRepository(session);
-        //combRep = new CombinationRepository(session);
+        combRep = new CombinationRepository(session);
         userRep = new UserRepository(session);
         //ratingRep = new RatingRepository(session);
     }
@@ -199,6 +231,50 @@ public class GTRatingApplication {
         System.out.println("Inserting new garnish...");
         garnishRep.insertGarnish(new Garnish(garnishName));
         System.out.println("New garnish succesfully inserted!");
+    }
+    
+    private static void insertComb() {
+        Combination comb = null;
+        
+        stdRep.useKeyspace("drinks");
+        
+        System.out.println("What is the name of the gin in the combination?");
+        String ginName = sc.nextLine();
+        if (!ginRep.containsGin(ginName)) { 
+            System.out.println("That gin does not exist in the database.\nPlease insert it before using it to create a combination.");
+            return;
+        }
+        
+        System.out.println("What is the name of the tonic in the combination?");
+        String tonicName = sc.nextLine();
+        if (!tonicRep.containsTonic(tonicName)) { 
+            System.out.println("That tonic does not exist in the database.\nPlease insert it before using it to create a combination.");
+            return;
+        }
+        
+        System.out.println("Does the combination contain a garnish? (Y/N)");
+        String containsGarnish = sc.nextLine();
+        if (containsGarnish.equals("Y")) {
+            System.out.println("What is the name of the garnish in the combination?");
+            String garnishName = sc.nextLine();
+            if (!garnishRep.containsGarnish(garnishName)) { 
+                System.out.println("That garnish does not exist in the database.\nPlease insert it before using it to create a combination.");
+                return;
+            }
+            comb = new Combination(ginName, tonicName, garnishName);
+        }
+        else if (containsGarnish.equals("N")) {
+            comb = new Combination(ginName, tonicName);
+        }
+        else {
+            System.out.println("Unknown input: \"" + containsGarnish + "\".");
+        }
+        
+        stdRep.useKeyspace("users");
+        
+        System.out.println("Inserting new combination...");
+        combRep.insertCombination(comb);
+        System.out.println("New combination succesfully inserted!");
     }
     
     private static void insertUser() {
