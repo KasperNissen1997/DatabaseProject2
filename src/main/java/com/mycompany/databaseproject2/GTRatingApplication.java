@@ -379,6 +379,8 @@ public class GTRatingApplication {
         int rating = Integer.parseInt(sc.nextLine());
         Rating rate= new Rating(activeUser, comb, comment, rating, 0);
         
+        stdRep.useKeyspace("users");
+        
         ratingRep.createRating(rate);
         combRep.updateRating(rate.getComb());
         
