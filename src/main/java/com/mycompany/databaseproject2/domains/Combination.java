@@ -31,6 +31,14 @@ public class Combination {
         this.nrOfRatings = 0;
     }
     
+    public String getTuple(){
+        StringBuilder sb = new StringBuilder("('")
+                .append(ginName).append("', '")
+                .append(tonicName).append("', '")
+                .append(garnishName).append("')");
+        return sb.toString();
+    }
+    
     public void setGinName(String ginName) {
         this.ginName = ginName;
     }
