@@ -61,12 +61,15 @@ public class CombinationRepository {
         session.execute(query);
     }
     
-    public void updateRating(Combination comb){
+    public String updateRating(Combination comb){
         StringBuilder q1 = new StringBuilder("UPDATE ").append(TABLE_NAME)
-                .append(" SET nrOfRatings = nrOfRatings+1 WHERE parts = ('")
-                .append(comb.getGinName()+"', ")
-                .append(comb.getTonicName()).append("', ").append(comb.getGarnishName());
-        
+                .append(" SET nrOfRatings = nrOfRatings+1 WHERE parts = ")
+                .append(comb.getTuple()+";");
+        StringBuilder q2 = new StringBuilder("UPDATE ").append(RatingRepository.RATING_BY_COMB).append(", ").append(TABLE_NAME)
+                .append(" SET ").append(TABLE_NAME).append(".averageScore = avg(").append(RatingRepository.RATING_BY_COMB).append(".rating) WHERE ").append(TABLE_NAME).append(".parts = ").append(comb.getTuple()).append(" AND ").append(RatingRepository.RATING_BY_COMB).append(".comb = ").append(comb.getTuple()).append(";");
+        q1.append(q2);
+        return q1.toString();
+                
     }
     
     

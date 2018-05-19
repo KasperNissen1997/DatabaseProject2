@@ -332,4 +332,52 @@ public class GTRatingApplication {
         System.out.println("User " + username + " does not exist...");
         return false;
     }
+    
+    public void createRating(){
+        Combination comb = null;
+        
+        stdRep.useKeyspace("drinks");
+        
+        System.out.println("What is the name of the gin in the combination?");
+        String ginName = sc.nextLine();
+        if (!ginRep.containsGin(ginName)) { 
+            System.out.println("That gin does not exist in the database.\nPlease insert it before using it to create a combination.");
+            return;
+        }
+        
+        System.out.println("What is the name of the tonic in the combination?");
+        String tonicName = sc.nextLine();
+        if (!tonicRep.containsTonic(tonicName)) { 
+            System.out.println("That tonic does not exist in the database.\nPlease insert it before using it to create a combination.");
+            return;
+        }
+        
+        System.out.println("Does the combination contain a garnish? (Y/N)");
+        String containsGarnish = sc.nextLine();
+        if (containsGarnish.equals("Y")) {
+            System.out.println("What is the name of the garnish in the combination?");
+            String garnishName = sc.nextLine();
+            if (!garnishRep.containsGarnish(garnishName)) { 
+                System.out.println("That garnish does not exist in the database.\nPlease insert it before using it to create a combination.");
+                return;
+            }
+            comb = new Combination(ginName, tonicName, garnishName);
+        }
+        else if (containsGarnish.equals("N")) {
+            comb = new Combination(ginName, tonicName);
+        }
+        else {
+            System.out.println("Unknown input: \"" + containsGarnish + "\".");
+        }
+        
+        System.out.println("Please write an evaluation");
+        String comment = sc.nextLine();
+        System.out.println("Write a rating between 1 and 5");
+        int rating = Integer.parseInt(sc.nextLine());
+        Rating rate= new Rating(activeUser, comb, comment, rating, 0);
+        
+        return;
+        
+    }
+    
 }

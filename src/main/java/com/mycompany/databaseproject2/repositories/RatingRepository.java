@@ -5,7 +5,6 @@ import com.datastax.driver.core.Session;
 import com.mycompany.databaseproject2.domains.Combination;
 import com.mycompany.databaseproject2.domains.Rating;
 import com.mycompany.databaseproject2.domains.User;
-import java.util.List;
 
 /**
  *
@@ -48,7 +47,7 @@ public class RatingRepository {
         return rs;
     }
     
-    public void createRating(Rating rating){
+    public String createRating(Rating rating){
         StringBuilder q = new StringBuilder("BEGIN BATCH ");
         
         StringBuilder q1 = new StringBuilder("INSERT INTO ").append(RATING_BY_USER).append("(user, rating, eval,comb, marks) VALUES(")
@@ -67,7 +66,8 @@ public class RatingRepository {
                 .append(", "+rating.getMarks())
                 .append(");");
         
-        StringBuilder q3 = new StringBuilder("UPDATE ").append();
+        q1.append(q2);
+        return q1.toString();
     }
     
 }
