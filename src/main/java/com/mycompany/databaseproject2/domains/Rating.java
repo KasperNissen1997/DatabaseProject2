@@ -8,13 +8,13 @@ import java.util.UUID;
  */
 public class Rating {
     
-    UUID author;
+    String author;
     Combination comb;
     String comment;
     int rating;
     int marks;
 
-    public Rating(UUID author, Combination comb, String comment, int rating, int marks) {
+    public Rating(String author, Combination comb, String comment, int rating, int marks) {
         this.author = author;
         this.comb = comb;
         this.comment = comment;
@@ -22,11 +22,11 @@ public class Rating {
         this.marks = marks;
     }
     
-    public UUID getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(UUID author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

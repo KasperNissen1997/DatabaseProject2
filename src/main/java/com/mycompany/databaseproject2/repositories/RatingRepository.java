@@ -23,10 +23,10 @@ public class RatingRepository {
     
     public void createTable() {
         StringBuilder f = new StringBuilder("BEGIN BATCH ");
-        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXIST ").append(RATING_BY_USER).append("(").append("user UUID, ").append("rating int, ").append("eval text, ").append("comb tuple, ").append("marks int, ").append("PRIMARY KEY(user, comb)").append(");");
+        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXIST ").append(RATING_BY_USER).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple, ").append("marks int, ").append("PRIMARY KEY(user, comb)").append(");");
         f.append(sb.toString());
         
-        sb = new StringBuilder("CREATE TABLE IF NOT EXIST ").append(RATING_BY_COMB).append("(").append("user UUID, ").append("rating int, ").append("eval text, ").append("comb tuple, ").append("marks int, ").append("PRIMARY KEY(comb, user)").append(");");
+        sb = new StringBuilder("CREATE TABLE IF NOT EXIST ").append(RATING_BY_COMB).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple, ").append("marks int, ").append("PRIMARY KEY(comb, user)").append(");");
         f.append(sb.toString());
         f.append("END BATCH;");
         final String query = f.toString();
@@ -50,19 +50,19 @@ public class RatingRepository {
     public String createRating(Rating rating){
         StringBuilder q = new StringBuilder("BEGIN BATCH ");
         
-        StringBuilder q1 = new StringBuilder("INSERT INTO ").append(RATING_BY_USER).append("(user, rating, eval,comb, marks) VALUES(")
+        StringBuilder q1 = new StringBuilder("INSERT INTO ").append(RATING_BY_USER).append("(user, rating, eval,comb, marks) VALUES('")
                 .append(rating.getAuthor())
-                .append(", "+rating.getRating())
-                .append(", "+rating.getComment())
-                .append(", "+rating.getComb())
+                .append("', "+rating.getRating())
+                .append(", '"+rating.getComment())
+                .append("', "+rating.getComb())
                 .append(", "+rating.getMarks())
                 .append(");");
         
-        StringBuilder q2 = new StringBuilder("INSERT INTO ").append(RATING_BY_COMB).append("(user, rating, eval,comb, marks) VALUES(")
+        StringBuilder q2 = new StringBuilder("INSERT INTO ").append(RATING_BY_COMB).append("(user, rating, eval,comb, marks) VALUES('")
                 .append(rating.getAuthor())
-                .append(", "+rating.getRating())
-                .append(", "+rating.getComment())
-                .append(", "+rating.getComb())
+                .append("', "+rating.getRating())
+                .append(", '"+rating.getComment())
+                .append("', "+rating.getComb())
                 .append(", "+rating.getMarks())
                 .append(");");
         

@@ -27,6 +27,8 @@ public class GTRatingApplication {
     static RatingRepository ratingRep;
     static UserRepository userRep;
     
+    static Session session;
+    
     public static String activeUser;
     
     public static void main(String[] args) {
@@ -37,6 +39,7 @@ public class GTRatingApplication {
         CassandraConnector connector = new CassandraConnector();
         connector.connect("127.0.0.1", null);
         Session session = connector.getSession();
+        GTRatingApplication.session = session;
         
         initializeRepositories(session);
         
@@ -376,6 +379,12 @@ public class GTRatingApplication {
         int rating = Integer.parseInt(sc.nextLine());
         Rating rate= new Rating(activeUser, comb, comment, rating, 0);
         
+        StringBuilder sb = new StringBuilder("BEGIN BATCH ");
+        sb.append(ratingRep.createRating(rate)+ " ");
+        sb.append(combRep.updateRating(rate.getComb()));
+        sb.append(" APPLY Batch;");
+        session.execute(sb.toString());
+        System.out.println("Successfully created rating");
         return;
         
     }
