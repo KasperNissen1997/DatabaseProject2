@@ -12,6 +12,9 @@ import java.util.Scanner;
 public class GTRatingApplication {
     private static Scanner sc = new Scanner(System.in);
     
+    private static String KEYSPACE_DRINKS = "drinks";
+    private static String KEYSPACE_USERS = "users";
+    
     static KeyspaceRepository stdRep;
         
     static GinRepository ginRep;
@@ -19,8 +22,8 @@ public class GTRatingApplication {
     static GarnishRepository garnishRep;
     
     static CombinationRepository combRep;
-    static UserRepository userRep;
     static RatingRepository ratingRep;
+    static UserRepository userRep;
     
     public static void main(String[] args) {
         GTRatingApplication.runApplication();
@@ -33,15 +36,14 @@ public class GTRatingApplication {
         
         initializeRepositories(session);
         
-        // create the "drinks" keyspace
-        stdRep.createKeyspace("drinks", "SimpleStrategy", 1);
-        stdRep.createKeyspace("users", "SimpleStrategy", 1);
+        stdRep.createKeyspace(KEYSPACE_DRINKS, "SimpleStrategy", 1);
+        stdRep.createKeyspace(KEYSPACE_USERS, "SimpleStrategy", 1);
         
-        stdRep.useKeyspace("drinks");
+        stdRep.useKeyspace(KEYSPACE_DRINKS);
         ginRep.createTable();
         tonicRep.createTable();
         garnishRep.createTable();
-        stdRep.useKeyspace("users");
+        stdRep.useKeyspace(KEYSPACE_USERS);
         /*
         combRep.createTable();
         userRep.createTable();
@@ -56,32 +58,30 @@ public class GTRatingApplication {
         while (!line.equals("exit")) {
             switch (line) {
                 
-                // create a new gin, tonic or garnish
+                // create a new gin, tonic, garnish or user
                 case "I":
-                    System.out.println("What would you like to insert?:\nGin (Gi), Tonic (T), Garnish (Ga), Combination (C), Rating (R)");
+                    System.out.println("What would you like to insert?:\nGin (Gi), Tonic (T), Garnish (Ga) | User (U)");
                     
                     line = sc.nextLine();
                     
                     switch (line) {
                         case "Gi":
-                            stdRep.useKeyspace("drinks");
-                            insertGin(ginRep);
+                            stdRep.useKeyspace(KEYSPACE_DRINKS);
+                            insertGin();
                             break;
                             
                         case "T":
-                            stdRep.useKeyspace("drinks");
-                            insertTonic(tonicRep);
+                            stdRep.useKeyspace(KEYSPACE_DRINKS);
+                            insertTonic();
                             break;
                             
                         case "Ga":
-                            stdRep.useKeyspace("drinks");
-                            insertGarnish(garnishRep);
+                            stdRep.useKeyspace(KEYSPACE_DRINKS);
+                            insertGarnish();
                             break;
-                        
-                        case "C":
-                            break;
-                        
-                        case "R":
+                            
+                        case "U":
+                            stdRep.useKeyspace(KEYSPACE_USERS);
                             break;
                             
                         default:
@@ -91,29 +91,34 @@ public class GTRatingApplication {
                     break;
                     
                 case "S":
-                    stdRep.useKeyspace("drinks");
                     
-                    System.out.println("Is it a gin, tonic or a garnish you're looking for?");
+                    System.out.println("What is it that you are looking for?:\nGin (Gi), Tonic (T), Garnish (Ga) | Combination (C), Rating (R), User (U)");
                     line = sc.nextLine();
                     switch(line) {
-                        case "gin":
-                            System.out.println("What is the name of the gin?");
-                            line = sc.nextLine();
-                            if(ginRep.containsGin(line)) { System.out.println("The gin was found in the database!"); }
-                            else { System.out.println("The gin was NOT found in the database!"); }
+                        case "Gi":
+                            stdRep.useKeyspace(KEYSPACE_DRINKS);
+                            searchGins();
                             break;
-                        case "tonic":
-                            System.out.println("What is the name of the tonic?");
-                            line = sc.nextLine();
-                            if(tonicRep.containsTonic(line)) { System.out.println("The tonic was found in the database!"); }
-                            else { System.out.println("The tonic was NOT found in the database!"); }
+                        case "T":
+                            stdRep.useKeyspace(KEYSPACE_DRINKS);
+                            searchTonics();
                             break;
-                        case "garnish":
-                            System.out.println("What is the name of the garnish?");
-                            line = sc.nextLine();
-                            if(garnishRep.containsGarnish(line)) { System.out.println("The garnish was found in the database!"); }
-                            else { System.out.println("The garnish was NOT found in the database!"); }
+                        case "Ga":
+                            stdRep.useKeyspace(KEYSPACE_DRINKS);
+                            searchGarnish();
                             break;
+                        case "C":
+                            stdRep.useKeyspace(KEYSPACE_USERS);
+                            break;
+                            
+                        case "R":
+                            stdRep.useKeyspace(KEYSPACE_USERS);
+                            break;
+                            
+                        case "U":
+                            stdRep.useKeyspace(KEYSPACE_USERS);
+                            break;
+                            
                         default:
                             System.out.println("Unknown input: \"" + line + "\".");
                             break;
@@ -142,13 +147,17 @@ public class GTRatingApplication {
         KeyspaceRepository stdRep = new KeyspaceRepository(session);
         
         // create the various domain repositories
-        GinRepository ginRep = new GinRepository(session);
-        TonicRepository tonicRep = new TonicRepository(session);
-        GarnishRepository garnishRep = new GarnishRepository(session);
-        // TODO: still need to add the remaining repositories
+        ginRep = new GinRepository(session);
+        tonicRep = new TonicRepository(session);
+        garnishRep = new GarnishRepository(session);
+        /*
+        combRep = new CombinationRepository(session);
+        ratingRep = new RatingRepository(session);
+        userRep = new UserRepository(session);
+        */
     }
     
-    private static void insertGin(GinRepository ginRep) {
+    private static void insertGin() {
         System.out.println("What is the name of the gin?");
         String ginName = sc.nextLine();
         System.out.println("What is the price of the gin?");
@@ -161,7 +170,7 @@ public class GTRatingApplication {
         System.out.println("New gin succesfully inserted!");
     }
     
-    private static void insertTonic(TonicRepository tonicRep) {
+    private static void insertTonic() {
         System.out.println("What is the name of the tonic?");
         String tonicName = sc.nextLine();
         System.out.println("What is the price of the tonic?");
@@ -172,12 +181,33 @@ public class GTRatingApplication {
         System.out.println("New tonic succesfully inserted!");
     }
     
-    private static void insertGarnish(GarnishRepository garnishRep) {
+    private static void insertGarnish() {
         System.out.println("What is the name of the garnish?");
         String garnishName = sc.nextLine();
         
         System.out.println("Inserting new garnish...");
         garnishRep.insertGarnish(new Garnish(garnishName));
         System.out.println("New garnish succesfully inserted!");
+    }
+    
+    private static void searchGins() {
+        System.out.println("What is the name of the gin?");
+        String ginName = sc.nextLine();
+        if(ginRep.containsGin(ginName)) { System.out.println("The gin was found in the database!"); }
+        else { System.out.println("The gin was NOT found in the database!"); }
+    }
+    
+    private static void searchTonics() {
+        System.out.println("What is the name of the tonic?");
+        String tonicName = sc.nextLine();
+        if(tonicRep.containsTonic(tonicName)) { System.out.println("The tonic was found in the database!"); }
+        else { System.out.println("The tonic was NOT found in the database!"); }
+    }
+    
+    private static void searchGarnish() {
+        System.out.println("What is the name of the garnish?");
+        String garnishName = sc.nextLine();
+        if(garnishRep.containsGarnish(garnishName)) { System.out.println("The garnish was found in the database!"); }
+        else { System.out.println("The garnish was NOT found in the database!"); }
     }
 }
