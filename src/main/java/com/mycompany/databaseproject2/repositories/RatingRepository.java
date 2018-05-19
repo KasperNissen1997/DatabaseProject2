@@ -43,8 +43,7 @@ public class RatingRepository {
         return rs;
     }
     
-    public String createRating(Rating rating){
-        StringBuilder q = new StringBuilder("BEGIN BATCH ");
+    public void createRating(Rating rating){
         
         StringBuilder q1 = new StringBuilder("INSERT INTO ").append(RATING_BY_USER).append("(user, rating, eval,comb, marks) VALUES('")
                 .append(rating.getAuthor())
@@ -54,6 +53,8 @@ public class RatingRepository {
                 .append(", "+rating.getMarks())
                 .append(");");
         
+        session.execute(q1.toString());
+        
         StringBuilder q2 = new StringBuilder("INSERT INTO ").append(RATING_BY_COMB).append("(user, rating, eval,comb, marks) VALUES('")
                 .append(rating.getAuthor())
                 .append("', "+rating.getRating())
@@ -62,8 +63,7 @@ public class RatingRepository {
                 .append(", "+rating.getMarks())
                 .append(");");
         
-        q1.append(q2);
-        return q1.toString();
+        session.execute(q2.toString());
     }
     
 }

@@ -1,5 +1,7 @@
 package com.mycompany.databaseproject2.repositories;
 
+import com.datastax.driver.core.ResultSet;
+import com.datastax.driver.core.Row;
 import com.mycompany.databaseproject2.domains.Combination;
 
 import com.datastax.driver.core.Session;
@@ -61,14 +63,24 @@ public class CombinationRepository {
         session.execute(query);
     }
     
-    public String updateRating(Combination comb){
+    public void updateRating(Combination comb){
         StringBuilder q1 = new StringBuilder("UPDATE ").append(TABLE_NAME)
                 .append(" SET nrOfRatings = nrOfRatings+1 WHERE parts = ")
                 .append(comb.getTuple()+";");
-        StringBuilder q2 = new StringBuilder("UPDATE ").append(RatingRepository.RATING_BY_COMB).append(", ").append(TABLE_NAME)
-                .append(" SET ").append(TABLE_NAME).append(".averageScore = AVG(").append(RatingRepository.RATING_BY_COMB).append(".rating) WHERE ").append(TABLE_NAME).append(".parts = ").append(comb.getTuple()).append(" AND ").append(RatingRepository.RATING_BY_COMB).append(".comb = ").append(comb.getTuple()).append(";");
-        q1.append(q2);
-        return q1.toString();
+        
+        session.execute(q1.toString());
+        
+        StringBuilder q = new StringBuilder("SELECT avg(rating) FROM ").append(RatingRepository.RATING_BY_COMB).append(" WHERE comb = ").append(comb.getTuple()).append(";");
+        
+        ResultSet rs =session.execute(q.toString());
+        float avg = 0;
+        for(Row r : rs){
+            avg = r.getFloat("rating");
+        }
+        
+        q1 = new StringBuilder("UPDATE ").append(TABLE_NAME).append(" SET averageScore = ").append(Float.toString(avg)).append(" WHERE parts = ").append(comb.getTuple()).append(";");
+        
+        session.execute(q1.toString());
                 
     }
     

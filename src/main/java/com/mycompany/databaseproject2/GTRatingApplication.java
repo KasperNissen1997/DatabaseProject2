@@ -379,11 +379,9 @@ public class GTRatingApplication {
         int rating = Integer.parseInt(sc.nextLine());
         Rating rate= new Rating(activeUser, comb, comment, rating, 0);
         
-        StringBuilder sb = new StringBuilder("BEGIN BATCH ");
-        sb.append(ratingRep.createRating(rate)+ " ");
-        sb.append(combRep.updateRating(rate.getComb()));
-        sb.append(" APPLY BATCH;");
-        session.execute(sb.toString());
+        ratingRep.createRating(rate);
+        combRep.updateRating(rate.getComb());
+        
         System.out.println("Successfully created rating");
         return;
         
