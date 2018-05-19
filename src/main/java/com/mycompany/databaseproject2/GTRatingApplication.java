@@ -135,7 +135,7 @@ public class GTRatingApplication {
                         break;
                     }
                     
-                    System.out.println("What would you like to do?:\nInsert (I), Rate (R), View previously rated combinations (V) | Log out (L)");
+                    System.out.println("What would you like to do?:\nInsert (I), View previously rated combinations (V) | Log out (L)");
                     line = sc.nextLine();
                     
                     while (!line.equals("L")) {
@@ -150,7 +150,7 @@ public class GTRatingApplication {
                                         break;
 
                                     case "R":
-                                        
+                                        // insertRating();
                                         break;
 
                                     default:
@@ -159,12 +159,8 @@ public class GTRatingApplication {
                                 }
                                 break;
 
-                            case "R":
-
-                                break;
-
                             case "V":
-
+                                
                                 break;
 
                             default:
