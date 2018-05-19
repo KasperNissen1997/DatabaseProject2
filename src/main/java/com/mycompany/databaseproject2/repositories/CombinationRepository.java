@@ -14,6 +14,7 @@ public class CombinationRepository {
     private Session session;
     
     public static final String TABLE_NAME = "combinations";
+    public static final String COUNTER_TABLE ="comb_rate_count";
     
     public CombinationRepository(Session session) {
         this.session = session;
@@ -29,11 +30,17 @@ public class CombinationRepository {
                 .append("parts tuple<text, text, text> PRIMARY KEY, ")
                 .append("score int, ")
                 .append("averageScore float, ")
-                .append("nrOfRatings counter")
+                .append("nrOfRatings int")
                 .append(");");
 
         final String query = sb.toString();
         session.execute(query);
+        
+        StringBuilder sp = new StringBuilder("CREATE TABLE IF NOT EXISTS ")
+                .append(COUNTER_TABLE)
+                .append("(").append("parts tuple<text, text, text> PRIMARY KEY, ")
+                .append("nrOfRatings counter );");
+        session.execute(sp.toString());
     }
     
     /**
@@ -61,10 +68,13 @@ public class CombinationRepository {
 
         final String query = sb.toString();
         session.execute(query);
+        
+        StringBuilder sp = new StringBuilder("INSERT INTO ").append(COUNTER_TABLE).append("parts, nrOfRatings) VALUES(").append(comb.getTuple()).append(", ").append(comb.getNrOfRatings()).append(");");
+        session.execute(sp.toString());
     }
     
     public void updateRating(Combination comb){
-        StringBuilder q1 = new StringBuilder("UPDATE ").append(TABLE_NAME)
+        StringBuilder q1 = new StringBuilder("UPDATE ").append(COUNTER_TABLE)
                 .append(" SET nrOfRatings = nrOfRatings+1 WHERE parts = ")
                 .append(comb.getTuple()+";");
         
