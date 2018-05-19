@@ -54,7 +54,7 @@ public class GTRatingApplication {
         stdRep.useKeyspace(KEYSPACE_USERS);
         combRep.createTable();
         userRep.createTable();
-        //ratingRep.createTable();
+        ratingRep.createTable();
        
         System.out.println("What would you like to do?:\nInsert (I), Search (S), Log in (L), Exit (exit)");
         
@@ -153,7 +153,7 @@ public class GTRatingApplication {
                                         break;
 
                                     case "R":
-                                        // insertRating();
+                                        createRating();
                                         break;
 
                                     default:
@@ -204,7 +204,7 @@ public class GTRatingApplication {
         garnishRep = new GarnishRepository(session);
         combRep = new CombinationRepository(session);
         userRep = new UserRepository(session);
-        //ratingRep = new RatingRepository(session);
+        ratingRep = new RatingRepository(session);
     }
     
     private static void insertGin() {
@@ -336,7 +336,7 @@ public class GTRatingApplication {
         return false;
     }
     
-    public void createRating(){
+    public static void createRating(){
         Combination comb = null;
         
         stdRep.useKeyspace("drinks");
@@ -382,7 +382,7 @@ public class GTRatingApplication {
         StringBuilder sb = new StringBuilder("BEGIN BATCH ");
         sb.append(ratingRep.createRating(rate)+ " ");
         sb.append(combRep.updateRating(rate.getComb()));
-        sb.append(" APPLY Batch;");
+        sb.append(" APPLY BATCH;");
         session.execute(sb.toString());
         System.out.println("Successfully created rating");
         return;

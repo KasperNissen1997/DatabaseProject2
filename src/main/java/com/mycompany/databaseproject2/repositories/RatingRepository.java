@@ -17,20 +17,16 @@ public class RatingRepository {
     
     Session session;
     
-    public void RatingRepository(Session session){
-        this.session=session;
+    public RatingRepository(Session session){
+        this.session = session;
     }
     
     public void createTable() {
-        StringBuilder f = new StringBuilder("BEGIN BATCH ");
-        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXIST ").append(RATING_BY_USER).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple, ").append("marks int, ").append("PRIMARY KEY(user, comb)").append(");");
-        f.append(sb.toString());
+        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(RATING_BY_USER).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple<text, text, text>, ").append("marks int, ").append("PRIMARY KEY(user, comb)").append(");");
+        session.execute(sb.toString());
         
-        sb = new StringBuilder("CREATE TABLE IF NOT EXIST ").append(RATING_BY_COMB).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple, ").append("marks int, ").append("PRIMARY KEY(comb, user)").append(");");
-        f.append(sb.toString());
-        f.append("END BATCH;");
-        final String query = f.toString();
-        session.execute(query);
+        sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(RATING_BY_COMB).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple<text, text, text>, ").append("marks int, ").append("PRIMARY KEY(comb, user)").append(");");
+        session.execute(sb.toString());
     }
     
     public ResultSet selectByComb(Combination comb){
@@ -54,7 +50,7 @@ public class RatingRepository {
                 .append(rating.getAuthor())
                 .append("', "+rating.getRating())
                 .append(", '"+rating.getComment())
-                .append("', "+rating.getComb())
+                .append("', "+rating.getComb().getTuple())
                 .append(", "+rating.getMarks())
                 .append(");");
         
@@ -62,7 +58,7 @@ public class RatingRepository {
                 .append(rating.getAuthor())
                 .append("', "+rating.getRating())
                 .append(", '"+rating.getComment())
-                .append("', "+rating.getComb())
+                .append("', "+rating.getComb().getTuple())
                 .append(", "+rating.getMarks())
                 .append(");");
         

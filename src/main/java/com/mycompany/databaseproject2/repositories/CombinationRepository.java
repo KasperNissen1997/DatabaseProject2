@@ -66,7 +66,7 @@ public class CombinationRepository {
                 .append(" SET nrOfRatings = nrOfRatings+1 WHERE parts = ")
                 .append(comb.getTuple()+";");
         StringBuilder q2 = new StringBuilder("UPDATE ").append(RatingRepository.RATING_BY_COMB).append(", ").append(TABLE_NAME)
-                .append(" SET ").append(TABLE_NAME).append(".averageScore = avg(").append(RatingRepository.RATING_BY_COMB).append(".rating) WHERE ").append(TABLE_NAME).append(".parts = ").append(comb.getTuple()).append(" AND ").append(RatingRepository.RATING_BY_COMB).append(".comb = ").append(comb.getTuple()).append(";");
+                .append(" SET ").append(TABLE_NAME).append(".averageScore = AVG(").append(RatingRepository.RATING_BY_COMB).append(".rating) WHERE ").append(TABLE_NAME).append(".parts = ").append(comb.getTuple()).append(" AND ").append(RatingRepository.RATING_BY_COMB).append(".comb = ").append(comb.getTuple()).append(";");
         q1.append(q2);
         return q1.toString();
                 
