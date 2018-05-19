@@ -22,10 +22,10 @@ public class RatingRepository {
     }
     
     public void createTable() {
-        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(RATING_BY_USER).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple<text, text, text>, ").append("marks int, ").append("PRIMARY KEY(user, comb)").append(");");
+        StringBuilder sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(RATING_BY_USER).append("(").append("user text, ").append("rating float, ").append("eval text, ").append("comb tuple<text, text, text>, ").append("marks int, ").append("PRIMARY KEY(user, comb)").append(");");
         session.execute(sb.toString());
         
-        sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(RATING_BY_COMB).append("(").append("user text, ").append("rating int, ").append("eval text, ").append("comb tuple<text, text, text>, ").append("marks int, ").append("PRIMARY KEY(comb, user)").append(");");
+        sb = new StringBuilder("CREATE TABLE IF NOT EXISTS ").append(RATING_BY_COMB).append("(").append("user text, ").append("rating float, ").append("eval text, ").append("comb tuple<text, text, text>, ").append("marks int, ").append("PRIMARY KEY(comb, user)").append(");");
         session.execute(sb.toString());
     }
     
