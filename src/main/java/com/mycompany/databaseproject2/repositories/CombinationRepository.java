@@ -69,7 +69,7 @@ public class CombinationRepository {
         final String query = sb.toString();
         session.execute(query);
         
-        StringBuilder sp = new StringBuilder("UPDATE ").append(COUNTER_TABLE).append(" SET nrOfRatings = 0 WHERE parts = ").append(comb.getTuple()).append(";");
+        StringBuilder sp = new StringBuilder("UPDATE ").append(COUNTER_TABLE).append(" SET nrOfRatings = nrOfRatings + 0 WHERE parts = ").append(comb.getTuple()).append(";");
         session.execute(sp.toString());
     }
     
@@ -85,7 +85,7 @@ public class CombinationRepository {
         ResultSet rs =session.execute(q.toString());
         float avg = 0;
         for(Row r : rs){
-            avg = r.getFloat("rating");
+            avg = r.getFloat("system.avg(rating)");
         }
         
         q1 = new StringBuilder("UPDATE ").append(TABLE_NAME).append(" SET averageScore = ").append(Float.toString(avg)).append(" WHERE parts = ").append(comb.getTuple()).append(";");
