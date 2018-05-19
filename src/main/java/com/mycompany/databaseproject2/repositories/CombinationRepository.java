@@ -69,7 +69,7 @@ public class CombinationRepository {
         final String query = sb.toString();
         session.execute(query);
         
-        StringBuilder sp = new StringBuilder("INSERT INTO ").append(COUNTER_TABLE).append("parts, nrOfRatings) VALUES(").append(comb.getTuple()).append(", ").append(comb.getNrOfRatings()).append(");");
+        StringBuilder sp = new StringBuilder("INSERT INTO ").append(COUNTER_TABLE).append("(parts, nrOfRatings) VALUES(").append(comb.getTuple()).append(", ").append(comb.getNrOfRatings()).append(");");
         session.execute(sp.toString());
     }
     
