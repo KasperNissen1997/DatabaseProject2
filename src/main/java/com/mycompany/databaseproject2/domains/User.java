@@ -9,11 +9,31 @@ import java.util.UUID;
 
 /**
  *
- * @author Kaspe
+ * @author KasperNissen1997
  */
 public class User {
     
-    UUID id;
-    String name;
+    private String name;
+    private UUID id;
     
+    public User (String name, UUID id) {
+        this.name = name;
+        this.id = id;
+    }
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public String getName() {
+        return this.name;
+    }
+    
+    public void setId(UUID id) {
+        this.id = id;
+    }
+    
+    public UUID getId() {
+        return this.id;
+    }
 }
