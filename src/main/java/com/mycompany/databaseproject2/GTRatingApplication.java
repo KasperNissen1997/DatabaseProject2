@@ -10,36 +10,45 @@ import java.util.Scanner;
  * @author Kaspe
  */
 public class GTRatingApplication {
+    private static Scanner sc = new Scanner(System.in);
+    
+    static KeyspaceRepository stdRep;
+        
+    static GinRepository ginRep;
+    static TonicRepository tonicRep;
+    static GarnishRepository garnishRep;
+    
+    static CombinationRepository combRep;
+    static UserRepository userRep;
+    static RatingRepository ratingRep;
     
     public static void main(String[] args) {
         GTRatingApplication.runApplication();
     }
     
-    static void runApplication() {
+    private static void runApplication() {
         CassandraConnector connector = new CassandraConnector();
         connector.connect("127.0.0.1", null);
         Session session = connector.getSession();
         
+        initializeRepositories(session);
+        
         // create the "drinks" keyspace
-        KeyspaceRepository stdRep = new KeyspaceRepository(session);
-        
-        // create the various domain repositories
-        GinRepository ginRep = new GinRepository(session);
-        TonicRepository tonicRep = new TonicRepository(session);
-        GarnishRepository garnishRep = new GarnishRepository(session);
-        // TODO: still need to add the remaining repositories
-        
         stdRep.createKeyspace("drinks", "SimpleStrategy", 1);
+        stdRep.createKeyspace("users", "SimpleStrategy", 1);
         
         stdRep.useKeyspace("drinks");
         ginRep.createTable();
         tonicRep.createTable();
         garnishRep.createTable();
+        stdRep.useKeyspace("users");
+        /*
+        combRep.createTable();
+        userRep.createTable();
+        ratingRep.createTable();
+        */
         
-        // await input
-        Scanner sc = new Scanner(System.in);
-        
-        System.out.println("What would you like to do?");
+        System.out.println("What would you like to do?:\nInsert (I), Search (S), Log in (L), Exit (exit)");
         
         String line = sc.nextLine();
         
@@ -48,42 +57,25 @@ public class GTRatingApplication {
             switch (line) {
                 
                 // create a new gin, tonic or garnish
-                case "insert":
+                case "I":
+                    System.out.println("What would you like to insert?:\nGin (Gi), Tonic (T), Garnish (Ga), Combination (C), Rating (R)");
                     
-                    System.out.println("Are you trying to insert a:\nGin (Gi), Tonic (T), Garnish (Ga), Combination (C), Rating (R)");
                     line = sc.nextLine();
+                    
                     switch (line) {
                         case "Gi":
                             stdRep.useKeyspace("drinks");
-                            System.out.println("What is the name of the gin?");
-                            String ginName = sc.nextLine();
-                            System.out.println("What is the price of the gin?");
-                            String ginPrice = sc.nextLine();
-                            System.out.println("What is the percentage of the gin?");
-                            String ginPercentage = sc.nextLine();
-                            System.out.println("Inserting new gin...");
-                            ginRep.insertGin(new Gin(ginName, Float.valueOf(ginPrice), Float.valueOf(ginPercentage)));
-                            System.out.println("New gin succesfully inserted!");
+                            insertGin(ginRep);
                             break;
                             
                         case "T":
                             stdRep.useKeyspace("drinks");
-                            System.out.println("What is the name of the tonic?");
-                            String tonicName = sc.nextLine();
-                            System.out.println("What is the price of the tonic?");
-                            String tonicPrice = sc.nextLine();
-                            System.out.println("Inserting new tonic...");
-                            tonicRep.insertTonic(new Tonic(tonicName, Float.valueOf(tonicPrice)));
-                            System.out.println("New tonic succesfully inserted!");
+                            insertTonic(tonicRep);
                             break;
                             
                         case "Ga":
                             stdRep.useKeyspace("drinks");
-                            System.out.println("What is the name of the garnish?");
-                            String garnishName = sc.nextLine();
-                            System.out.println("Inserting new garnish...");
-                            garnishRep.insertGarnish(new Garnish(garnishName));
-                            System.out.println("New garnish succesfully inserted!");
+                            insertGarnish(garnishRep);
                             break;
                         
                         case "C":
@@ -98,7 +90,7 @@ public class GTRatingApplication {
                     }
                     break;
                     
-                case "search":
+                case "S":
                     stdRep.useKeyspace("drinks");
                     
                     System.out.println("Is it a gin, tonic or a garnish you're looking for?");
@@ -127,6 +119,8 @@ public class GTRatingApplication {
                             break;
                     }
                     break;
+                case "L":
+                    break;
                 case "ayyy, cook some meth dawg":
                     //meth.cookHomie(bestShit);
                     break;
@@ -142,5 +136,48 @@ public class GTRatingApplication {
         }
         
         connector.close();
+    }
+    
+    private static void initializeRepositories(Session session) {
+        KeyspaceRepository stdRep = new KeyspaceRepository(session);
+        
+        // create the various domain repositories
+        GinRepository ginRep = new GinRepository(session);
+        TonicRepository tonicRep = new TonicRepository(session);
+        GarnishRepository garnishRep = new GarnishRepository(session);
+        // TODO: still need to add the remaining repositories
+    }
+    
+    private static void insertGin(GinRepository ginRep) {
+        System.out.println("What is the name of the gin?");
+        String ginName = sc.nextLine();
+        System.out.println("What is the price of the gin?");
+        String ginPrice = sc.nextLine();
+        System.out.println("What is the percentage of the gin?");
+        String ginPercentage = sc.nextLine();
+        
+        System.out.println("Inserting new gin...");
+        ginRep.insertGin(new Gin(ginName, Float.valueOf(ginPrice), Float.valueOf(ginPercentage)));
+        System.out.println("New gin succesfully inserted!");
+    }
+    
+    private static void insertTonic(TonicRepository tonicRep) {
+        System.out.println("What is the name of the tonic?");
+        String tonicName = sc.nextLine();
+        System.out.println("What is the price of the tonic?");
+        String tonicPrice = sc.nextLine();
+        
+        System.out.println("Inserting new tonic...");
+        tonicRep.insertTonic(new Tonic(tonicName, Float.valueOf(tonicPrice)));
+        System.out.println("New tonic succesfully inserted!");
+    }
+    
+    private static void insertGarnish(GarnishRepository garnishRep) {
+        System.out.println("What is the name of the garnish?");
+        String garnishName = sc.nextLine();
+        
+        System.out.println("Inserting new garnish...");
+        garnishRep.insertGarnish(new Garnish(garnishName));
+        System.out.println("New garnish succesfully inserted!");
     }
 }
