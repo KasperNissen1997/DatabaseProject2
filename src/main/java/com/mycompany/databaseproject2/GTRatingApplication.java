@@ -135,6 +135,9 @@ public class GTRatingApplication {
                         break;
                     }
                     System.out.println("Ayyy mah homie, you signed in!");
+                    
+                    System.out.println("");
+                    
                     break;
                 case "ayyy, cook some meth dawg":
                     //meth.cookHomie(bestShit);
