@@ -61,5 +61,13 @@ public class CombinationRepository {
         session.execute(query);
     }
     
+    public void updateRating(Combination comb){
+        StringBuilder q1 = new StringBuilder("UPDATE ").append(TABLE_NAME)
+                .append(" SET nrOfRatings = nrOfRatings+1 WHERE parts = ('")
+                .append(comb.getGinName()+"', ")
+                .append(comb.getTonicName()).append("', ").append(comb.getGarnishName());
+        
+    }
+    
     
 }
