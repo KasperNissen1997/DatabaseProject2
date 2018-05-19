@@ -134,41 +134,49 @@ public class GTRatingApplication {
                     if (!logIn()) {
                         break;
                     }
-                    System.out.println("Ayyy mah homie, you signed in!");
                     
-                    System.out.println("What would you like to do?:\nInsert (I), Rate (R), View previously rated combinations (V)");
+                    System.out.println("What would you like to do?:\nInsert (I), Rate (R), View previously rated combinations (V) | Log out (L)");
                     line = sc.nextLine();
-                    switch (line) {
-                        case "I":
-                            System.out.println("What would you like to insert?\nCombination (C), Rating (R)");
-                            line = sc.nextLine();
-                            
-                            switch (line) {
-                                case "C":
-                                    insertComb();
-                                    break;
-                                    
-                                case "R":
-                                    break;
-                                    
-                                default:
-                                    System.out.println("Unknown input: \"" + line + "\".");
-                                    break;
-                            }
-                            break;
-                            
-                        case "R":
-                            
-                            break;
-                            
-                        case "V":
-                            
-                            break;
-                            
-                        default:
-                            System.out.println("Unknown input: \"" + line + "\".");
-                            break;
+                    
+                    while (!line.equals("L")) {
+                        switch (line) {
+                            case "I":
+                                System.out.println("What would you like to insert?\nCombination (C), Rating (R)");
+                                line = sc.nextLine();
+
+                                switch (line) {
+                                    case "C":
+                                        insertComb();
+                                        break;
+
+                                    case "R":
+                                        
+                                        break;
+
+                                    default:
+                                        System.out.println("Unknown input: \"" + line + "\".");
+                                        break;
+                                }
+                                break;
+
+                            case "R":
+
+                                break;
+
+                            case "V":
+
+                                break;
+
+                            default:
+                                System.out.println("Unknown input: \"" + line + "\".");
+                                break;
+                        }
+                        
+                        System.out.println("What would you like to do?:\nInsert (I), Rate (R), View previously rated combinations (V) | Log out (L)");
+                        line = sc.nextLine();
                     }
+                    
+                    System.out.println("You have succesfully logged out.");
                     
                     break;
                 case "ayyy, cook some meth dawg":
