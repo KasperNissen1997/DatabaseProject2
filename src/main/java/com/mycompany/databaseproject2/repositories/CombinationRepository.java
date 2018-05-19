@@ -29,7 +29,7 @@ public class CombinationRepository {
                 .append("parts tuple<text, text, text> PRIMARY KEY, ")
                 .append("score int, ")
                 .append("averageScore float, ")
-                .append("nrOfRatings int")
+                .append("nrOfRatings counter")
                 .append(");");
 
         final String query = sb.toString();
