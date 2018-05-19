@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  *
- * @author KasperNissen1997
+ * @author Sebastian
  */
 public class Rating {
     
@@ -21,8 +21,6 @@ public class Rating {
         this.rating = rating;
         this.marks = marks;
     }
-
-    
     
     public UUID getAuthor() {
         return author;
